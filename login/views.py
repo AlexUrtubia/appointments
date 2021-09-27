@@ -32,16 +32,18 @@ def add_user(request):
             last_name=request.POST['last_name'],
             email=request.POST['email'],
             password=decode_hash_pw,
-            birthday = request.POST['birthday'],
+            # birthday = request.POST['birthday'],
         )
         request.session['user_id'] = user.id
         #retornar mensaje de creacion correcta
         # msg="User successfully created"
         # messages.success(request, msg)
-    return render(request, 'success.html')
+    return redirect('/appointments')
 
 
 def login(request):
+    if 'user_id' in request.session:
+        return redirect('/appointments')
 
     user = User.objects.filter(email=request.POST['email'].lower())
     errors = User.objects.login_validator(request.POST['password'], user)
@@ -53,16 +55,13 @@ def login(request):
     else:
         request.session['user_id'] = user[0].id
         request.session['user_name'] = user[0].first_name
-        return redirect('/success')
+        return redirect('/appointments')
 
 
 def success(request):
     if 'user_id' not in request.session:
         return redirect('/')
-    context = {
-        "active_user": User.objects.get(id=request.session['user_id']),
-        }
-    return render(request, 'success.html', context)
+    return redirect('/appointments')
 
 def log_out(request):
     request.session.flush()

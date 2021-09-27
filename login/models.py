@@ -5,8 +5,8 @@ from datetime import date
 
 class UserManager(models.Manager):
     def basic_validator(self, postData):
-        today = date.today()
-        age = postData['birthday']
+        # today = date.today()
+        # age = postData['birthday']
         errors = {}
         if len(User.objects.filter(email=postData['email'])) > 0:
             errors['exists'] = "Email already registered"
@@ -30,9 +30,9 @@ class UserManager(models.Manager):
             if len(postData['password']) < 8 and len(postData['password']) != 0:
                 errors['no_password'] = "Your password must have at least 8 characters"
             if postData['password'] != postData['password_c']:
-                errors['password_c'] = "Password no son iguales"
-            if postData['birthday'] > str(today):
-                errors['birthday'] = 'Birthday must be past!'
+                errors['password_c'] = "Passwords don't match"
+            # if postData['birthday'] > str(today):
+            #     errors['birthday'] = 'Birthday must be past!'
             # if age.year() - postData['birthday'].year() < 13:
             #     errors['under_age'] = 'You must be at least 13 years old!'
         return errors
@@ -58,7 +58,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
-    birthday = models.DateTimeField()
+    # birthday = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()

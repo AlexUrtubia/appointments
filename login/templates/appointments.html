@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/b220f12e97.js" crossorigin="anonymous"></script>
+    <title>Appointments</title>
+    <script>
+        $(document).ready(function() {
+            setTimeout(
+                function() {
+                    $('.alert').hide();
+                }, 3000
+            );
+        });
+    </script>
+</head>
+
+<body>
+    {% include "navbar.html" %}
+    <div class="container">
+        <div class="my-5">
+            <h2>Hello, {{active_user.first_name}}</h2>
+        </div>
+        <div class='row justify-content-between'>
+            <div class="col-md-7">
+                <h5>Here are your appointments</h5>
+            </div>
+            <div class="col-md-3 text-right">
+                <a href="{% url 'add_appo' %}">
+                    <h5>Add an appointment!</h5>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col table-responsive">
+                <table class="table table-hover table-bordered border-dark">
+                    <thead>
+                        <tr class="table-active">
+                            <th class="border-dark border" scope="col">Tasks</th>
+                            <th class="border-dark border" scope="col">Date</th>
+                            <th class="border-dark border" scope="col">Status</th>
+                            <th class="border-dark border" scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appo in appoint_list %}
+                        <tr class="table-light">
+                            <td class="border-dark border">{{appo.name}}</td>
+                            <td class="border-dark border">{{appo.date}}</td>
+                            <td class="border-dark border">{{appo.status}}</td>
+                            <td class="border-dark border text-center">
+                                <a href="/appointments/{{appo.id}}/edit "><i class="fas fa-edit "></i></a> |
+                                <a href="/appointments/{{appo.id}}/delete "><i class="fas fa-trash-alt "></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div><br><br>
+    </div>
+    <div class="container">
+        <div class='row justify-content-between'>
+            <div class="col-md-7">
+                <h5>Past appointments</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-hover table-bordered border-dark ">
+                    <thead>
+                        <tr class="table-active">
+                            <th class="border-dark border" scope="col">Tasks</th>
+                            <th class="border-dark border" scope="col">Date</th>
+                            <th class="border-dark border" scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appo in past_appo_list %}
+                        <tr class="table-light">
+                            <td class="border-dark border">{{appo.name}}</td>
+                            <td class="border-dark border">{{appo.date}}</td>
+                            <td class="border-dark border">{{appo.status}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+</html>
